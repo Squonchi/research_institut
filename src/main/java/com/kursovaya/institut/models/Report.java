@@ -17,14 +17,20 @@ public class Report {
     private String title;
     private String anons;
     private String full_text;
+    @Enumerated(EnumType.ORDINAL)
+    private ReportStatus status;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
 
 
-
     public Report() {
+    }
+
+    public Report(String title) {
+        this.title = title;
+        this.status = ReportStatus.WAITING_APPOINTMENT;
     }
 
     public Report(String title, String anons, String full_text, User user) {
@@ -32,6 +38,7 @@ public class Report {
         this.anons = anons;
         this.full_text = full_text;
         this.author = user;
+        this.status = ReportStatus.WAITING_APPOINTMENT;
     }
 
 

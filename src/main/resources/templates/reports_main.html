@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Отчеты</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
@@ -12,11 +12,31 @@
 
 <div class="container mt-5">
     <h1>Отчеты по научным работам</h1>
-    <div th:each="el : ${reports}" class="alert alert-info mt-2">
+    <div th:each="el : ${reports}" class="alert alert-info mt-2" >
        <h3 th:text="${el.title}"></h3>
-        <p th:text="${el.anons}"></p>
-        <a th:href="'/reports/' + ${el.id}" class="btn btn-warning">Детальнее</a>
+        <p th:text="${el.anons}" th:if="${el.anons != null}" sec:authorize="hasAuthority('DIRECTOR')"></p>
+        <a th:href="'/reports/' + ${el.id}" class="btn btn-warning" th:if="${el.full_text != null}" sec:authorize="hasAnyAuthority('DIRECTOR', 'USER')">Детальнее</a>
+        <form action="/reports/add" method="post" sec:authorize="hasAuthority('USER')">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <input type="hidden" name="id" th:value="${el.id}"/>
+            <button type="submit" class="btn btn-success" sec:authorize="hasAuthority('USER')" th:if="${el.status == T(com.kursovaya.institut.models.ReportStatus).WAITING_APPOINTMENT}">Написать отчет</button>
+        </form>
+        <form action="/reports/edit" method="post" sec:authorize="hasAuthority('USER')">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <input type="hidden" name="id" th:value="${el.id}"/>
+            <button type="submit" class="btn btn-success" sec:authorize="hasAuthority('USER')" th:if="${el.status == T(com.kursovaya.institut.models.ReportStatus).FOR_CORRECTION}">Исправить замечания</button>
+        </form>
+        <form action="/reports/edit" method="post" sec:authorize="hasAuthority('USER')">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <input type="hidden" name="id" th:value="${el.id}"/>
+            <button type="submit" class="btn btn-success" sec:authorize="hasAuthority('USER')" th:if="${el.status == T(com.kursovaya.institut.models.ReportStatus).FOR_CORRECTION}">Исправить замечания</button>
+        </form>
     </div>
+    <form action="/reports" method="post" sec:authorize="hasAuthority('ADMIN')">
+        <input type="text" name="title" placeholder="Наименование темы" class="form-control"><br>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <button type="submit" class="btn btn-success">Добваить тему</button>
+    </form>
 </div>
 
 <div th:insert="blocks/footer :: footer"></div>

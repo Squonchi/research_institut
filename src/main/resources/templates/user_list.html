@@ -20,10 +20,10 @@
             <th></th>
             </tr>
         </thead>
-        <tbody th:each="el : ${users}" class="alert alert-info mt-2">
+        <tbody th:each="user : ${users}" class="alert alert-info mt-2">
         <tr>
-            <td th:text="${el.username}"></td>
-            <td th:text="${el.roles}></td>
+            <td th:text="${user.username}"></td>
+            <td th:each="role : ${user.roles}"> <strong th:text="${#strings.setJoin(role.name(), ', ')}"></strong></td>
         </tr>
         </tbody>
     </table>

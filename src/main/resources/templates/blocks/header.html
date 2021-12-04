@@ -1,13 +1,17 @@
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div th:fragment="header">
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 border-bottom">
 
         <nav class="my-2 my-md-0 mr-md-3">
             <a class="me-3 py-2 text-dark text-decoration-none" href="/">Главная</a>
-            <a class="me-3 py-2 text-dark text-decoration-none" href="/reports">Отчеты</a>
-            <a class="me-3 py-2 text-dark text-decoration-none" href="/reports/add">Добавить отчет</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="/reports" sec:authorize="hasAuthority('DIRECTOR')">Отчеты</a>
+            <a class="me-3 py-2 text-dark text-decoration-none " href="/user" sec:authorize="hasAuthority('ADMIN')">Список пользователей</a>
+            <a class="me-3 py-2 text-dark text-decoration-none " href="/reports" sec:authorize="hasAnyAuthority('ADMIN', 'DIRECTOR', 'USER')">Список тем</a>
+
         </nav>
         <form th:action="@{/logout}" method="post" class="ml-3">
             <input type="submit" value="Sign Out"/>
         </form>
     </div>
 </div>
+</html>
