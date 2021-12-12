@@ -18,7 +18,10 @@
         You have been logged out.
     </div>
     <form th:action="@{/registration}" method="post" class="container mt-5 mb-5">
-        <div class="container mt-2 mb-2"><label> User Name : <input type="text" name="username" class="form-control"/> </label></div>
+        <div class="container mt-2 mb-2"><label> Фамилия : <input type="text" name="firstName" class="form-control"/> </label></div>
+        <div class="container mt-2 mb-2"><label> Имя : <input type="text" name="lastName" class="form-control"/> </label></div>
+        <div class="container mt-2 mb-2"><label> Отчество : <input type="text" name="patronymic" class="form-control"/> </label></div>
+        <div class="container mt-2 mb-2"><label> Username : <input type="text" name="username" class="form-control"/> </label></div>
         <div class="container mt-2 mb-2"><label> Password: <input type="password" name="password" class="form-control"/> </label></div>
         <div><input type="submit" value="Sign In" class="btn btn-success"/></div>
     </form>

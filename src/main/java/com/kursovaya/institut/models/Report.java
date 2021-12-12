@@ -17,11 +17,12 @@ public class Report {
     private String title;
     private String anons;
     private String full_text;
+    private String comment;
     @Enumerated(EnumType.ORDINAL)
     private ReportStatus status;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User author;
 
 

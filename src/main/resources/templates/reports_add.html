@@ -11,15 +11,15 @@
 <header th:insert="blocks/header :: header"></header>
 
 <div class="container mt-5 mb-5">
-    <h1>Добавление отчета</h1>
+    <h1>Отчет по научной работе</h1>
     <div class="alert alert-info">
-        <p>Тема научной работы: <strong th:text="${report.title}"></strong><br>
+        <p><h4>Тема научной работы:</h4><strong th:text="${report.title}"></strong> </p>
         <form method="post">
-            <input type="hidden" name="id" th:value="${report.id}">
-            <input type="text" name="anons" placeholder="Краткое описание" class="form-control"><br>
-            <textarea name="full_text" placeholder="Текст отчета" class="form-control"></textarea><br>
+            <input type="text" name="anons" placeholder="Краткое описание" class="form-control" th:value="${report.anons}"><br>
+            <textarea name="full_text" placeholder="Текст отчета" class="form-control" th:text="${report.full_text}"/><br>
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            <button type="submit" class="btn btn-success">Добваить отчет</button>
+            <button type="submit" name="status" th:value="${T(com.kursovaya.institut.models.ReportStatus).ON_INSPECTION}" class="btn btn-success">Отправить на проверку</button>
+            <button type="submit" name="status" th:value="${T(com.kursovaya.institut.models.ReportStatus).IN_PROGRESS}" class="btn btn-success">Сохранить</button>
         </form>
     </div>
 </div>
