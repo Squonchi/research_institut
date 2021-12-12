@@ -11,11 +11,16 @@
 <header th:insert="blocks/header :: header"></header>
 
 <div class="container mt-5">
-    <div class="alert alert-info mt-2">
-        <h1 th:text="${report.title}"></h1>
-        <p th:text="${report.full_text}"></p>
-        <p>Автор: <strong th:text="${report.author.username}"></strong></p>
-        <div sec:authorize="hasAuthority('DIRECTOR')" th:if="${report.status == T(com.kursovaya.institut.models.ReportStatus).ON_INSPECTION}">
+    <div class="card">
+        <div class="card-header">
+            Отчет по научной работе
+        </div>
+        <div class="card-body">
+            <h5 class="card-title" th:text="${report.title}"></h5>
+            <p class="card-text">Автор: <strong th:text="${report.author.lastName} + ' ' + ${report.author.firstName} + ' ' + ${report.author.patronymic}"></strong></p>
+            <p class="card-text alert alert-info mt-2 mb-2" th:text="${report.full_text}"></p>
+        </div>
+        <div sec:authorize="hasAuthority('DIRECTOR')" th:if="${report.status == T(com.kursovaya.institut.models.ReportStatus).ON_INSPECTION}" class="m-2">
             <form method="post" >
                 <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
                 <textarea class="form-control" name="comment" placeholder="Замечания к отчету" th:text="${report.comment}"></textarea><br>

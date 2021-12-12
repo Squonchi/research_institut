@@ -128,11 +128,4 @@ public class ReportController {
         }
         return "redirect:/reports";
     }
-
-    /*@GetMapping("/themes")
-    public String themesList(Model model) {
-        Iterable<Report> reports = reportRepository.findAll();
-        model.addAttribute("reports", reports);
-        return "themes";
-    }*/
 }

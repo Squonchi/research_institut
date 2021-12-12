@@ -12,7 +12,7 @@
 
 <div class="container mt-5">
     <h1>Список пользователей</h1>
-    <table>
+    <!--table>
         <thead>
         <tr>
             <th>Name</th>
@@ -26,8 +26,19 @@
             <td th:each="role : ${user.roles}"> <strong th:text="${#strings.setJoin(role.name(), ', ')}"></strong></td>
         </tr>
         </tbody>
-    </table>
-    <a href="/registration" class="btn btn-success">Добавить пользователя</a>
+    </table-->
+    <div class="alert alert-info mt-2 mb-2">
+        <a class="btn btn-success" href="/registration">Добавить нового пользователя</a>
+    </div>
+    <div class="card m-1" th:each="user : ${users}">
+        <div class="card-header" th:text="${user.username}"></div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Фамилия: <strong th:text="${user.lastName}"></strong></li>
+            <li class="list-group-item">Имя: <strong th:text="${user.firstName}"></strong></li>
+            <li class="list-group-item">Отчество: <strong th:text="${user.patronymic}"></strong></li>
+            <li class="list-group-item">Должность: <strong th:each="role : ${user.roles}" th:text="${role.getName()}"></strong></li>
+        </ul>
+    </div>
 </div>
 
 <div th:insert="blocks/footer :: footer"></div>

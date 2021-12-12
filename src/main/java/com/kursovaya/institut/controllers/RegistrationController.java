@@ -23,7 +23,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(User user, Model model) {
+    public String addUser(User user, Role role,  Model model) {
         User userFromDb = userRepository.findUserByUsername(user.getUsername());
         if (userFromDb != null) {
             model.addAttribute("message", "Такой пользователь уже существует");
@@ -31,7 +31,7 @@ public class RegistrationController {
         }
 
         user.setActive(true);
-        user.setRoles(Set.of(Role.USER));
+        user.setRoles(Set.of(role));
 
         userRepository.save(user);
         return "redirect:/";

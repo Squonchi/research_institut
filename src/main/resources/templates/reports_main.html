@@ -11,45 +11,61 @@
 <header th:insert="blocks/header :: header"></header>
 
 <div class="container mt-5">
+
     <h1>Отчеты по научным работам</h1>
-    <div class="alert alert-info mt-2" th:each="el : ${reports}">
-        <h3 th:text="${el.title}"></h3>
-        <p sec:authorize="hasAuthority('DIRECTOR')" th:if="${el.anons != null}" th:text="${el.anons}"></p>
-        <a class="btn btn-warning" sec:authorize="hasAnyAuthority('DIRECTOR', 'USER')" th:href="'/reports/' + ${el.id}"
-           th:if="${el.full_text != null}">Детальнее</a>
-        <a class="btn btn-warning" sec:authorize="hasAnyAuthority('USER')" th:href="'/reports/' + ${el.id} + '/edit'"
-           th:if="${el.status == T(com.kursovaya.institut.models.ReportStatus).FOR_CORRECTION  && curUser.username.equals(el.author.username)}">
-            Исправить замечания</a>
-        <a class="btn btn-warning" sec:authorize="hasAnyAuthority('USER')" th:href="'/reports/' + ${el.id} + '/add'"
-           th:if="${el.status == T(com.kursovaya.institut.models.ReportStatus).IN_PROGRESS && curUser.username.equals(el.author.username)}">
-            Написать отчет</a>
-        <!--form action="/reports/add" method="post" sec:authorize="hasAuthority('USER')"
-              th:if="${el.status == T(com.kursovaya.institut.models.ReportStatus).IN_PROGRESS && curUser.username.equals(el.author.username)}">
+    <div class="alert alert-info mt-2" sec:authorize="hasAuthority('ADMIN')">
+        <h5>Добавление новой темы научной работы</h5>
+        <form action="/reports" class="mt-2 mb-2" method="post" >
+            <input class="form-control" name="title" placeholder="Наименование темы" required type="text"><br>
             <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
-            <input name="id" th:value="${el.id}" type="hidden"/>
-            <button class="btn btn-success" type="submit">Написать отчет</button>
-        </form>
-        <form action="/reports/edit" method="post" sec:authorize="hasAuthority('USER')"
-              th:if="${el.status == T(com.kursovaya.institut.models.ReportStatus).FOR_CORRECTION  && curUser.username.equals(el.author.username)}">
-            <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
-            <input name="id" th:value="${el.id}" type="hidden"/>
-            <button class="btn btn-success" type="submit">Исправить замечания</button>
-        </form-->
-        <form method="post" sec:authorize="hasAuthority('DIRECTOR')"
-              th:if="${el.status == T(com.kursovaya.institut.models.ReportStatus).WAITING_APPOINTMENT}">
-            <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
-            <input name="id" th:value="${el.id}" type="hidden"/>
-            <select name="username">
-                <option th:each="user : ${users}" th:text="${user.username}" th:value="${user.username}"></option>
-            </select>
-            <button class="btn btn-success" type="submit">Выдать тему сотруднику</button>
+            <button class="btn btn-success" type="submit">Добавить тему</button>
         </form>
     </div>
-    <form action="/reports" method="post" sec:authorize="hasAuthority('ADMIN')">
-        <input class="form-control" name="title" placeholder="Наименование темы" type="text"><br>
-        <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
-        <button class="btn btn-success" type="submit">Добавить тему</button>
-    </form>
+
+    <div class="list-group">
+        <!--div class="alert alert-info mt-2" th:each="el : ${reports}"-->
+        <div class="card mt-1" th:each="el : ${reports}">
+            <div class="card-header" th:text="${el.status.getName()}"></div>
+            <div class="card-body">
+                <h5 class="card-title" th:text="${el.title}"></h5>
+                <p class="card-text" sec:authorize="hasAuthority('DIRECTOR')" th:if="${el.anons != null}"
+                   th:text="${el.anons}"></p>
+
+
+                <a class="btn btn-success" sec:authorize="hasAnyAuthority('USER')"
+                   th:href="'/reports/' + ${el.id}"
+                   th:if="${el.status != T(com.kursovaya.institut.models.ReportStatus).WAITING_APPOINTMENT}">
+                    Детальнее</a>
+                <a class="btn btn-success" sec:authorize="hasAnyAuthority('DIRECTOR')"
+                   th:href="'/reports/' + ${el.id}"
+                   th:if="${el.status != T(com.kursovaya.institut.models.ReportStatus).WAITING_APPOINTMENT && el.status != T(com.kursovaya.institut.models.ReportStatus).ON_INSPECTION}">
+                    Детальнее</a>
+                <a class="btn btn-warning" sec:authorize="hasAnyAuthority('DIRECTOR')"
+                   th:href="'/reports/' + ${el.id}"
+                   th:if="${el.status == T(com.kursovaya.institut.models.ReportStatus).ON_INSPECTION}">
+                    Детальнее</a>
+                <a class="btn btn-danger" sec:authorize="hasAnyAuthority('USER')"
+                   th:href="'/reports/' + ${el.id} + '/edit'"
+                   th:if="${el.status == T(com.kursovaya.institut.models.ReportStatus).FOR_CORRECTION  && curUser.username.equals(el.author.username)}">
+                    Исправить замечания</a>
+                <a class="btn btn-warning" sec:authorize="hasAnyAuthority('USER')"
+                   th:href="'/reports/' + ${el.id} + '/add'"
+                   th:if="${el.status == T(com.kursovaya.institut.models.ReportStatus).IN_PROGRESS && curUser.username.equals(el.author.username)}">
+                    Написать отчет</a>
+                <form method="post" sec:authorize="hasAuthority('DIRECTOR')"
+                      th:if="${el.status == T(com.kursovaya.institut.models.ReportStatus).WAITING_APPOINTMENT}">
+                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+                    <input name="id" th:value="${el.id}" type="hidden"/>
+                    <select name="username">
+                        <option th:each="user : ${users}" th:text="${user.username}"
+                                th:value="${user.username}"></option>
+                    </select>
+                    <button class="btn btn-success" type="submit">Выдать тему сотруднику</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <div th:insert="blocks/footer :: footer"></div>
