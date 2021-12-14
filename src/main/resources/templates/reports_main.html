@@ -57,7 +57,7 @@
                     <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
                     <input name="id" th:value="${el.id}" type="hidden"/>
                     <select name="username">
-                        <option th:each="user : ${users}" th:text="${user.username}"
+                        <option th:each="user : ${users}" th:text="${user.lastName + ' ' + user.firstName + ' ' + user.patronymic}"
                                 th:value="${user.username}"></option>
                     </select>
                     <button class="btn btn-success" type="submit">Выдать тему сотруднику</button>

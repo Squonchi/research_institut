@@ -15,11 +15,9 @@
         <nav class="my-2 my-md-0 mr-md-3">
             <a class="me-3 py-2 text-dark text-decoration-none" href="/">Главная</a>
             <a class="me-3 py-2 text-dark text-decoration-none" href="/reports"
-               sec:authorize="hasAuthority('DIRECTOR')">Отчеты</a>
+               sec:authorize="hasAnyAuthority('DIRECTOR', 'ADMIN', 'USER')">Отчеты</a>
             <a class="me-3 py-2 text-dark text-decoration-none " href="/user" sec:authorize="hasAuthority('ADMIN')">Список
                 пользователей</a>
-            <a class="me-3 py-2 text-dark text-decoration-none " href="/reports"
-               sec:authorize="hasAnyAuthority('ADMIN', 'DIRECTOR', 'USER')">Список тем</a>
 
         </nav>
         <form class="ml-3" method="post" th:action="@{/logout}" sec:authorize="isAuthenticated()">
