@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Collection;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findUserByUsername(String username);
 
+    User findUserByUsername(String username);
 
     Collection<User> findAllByRoles(Role role);
 }
