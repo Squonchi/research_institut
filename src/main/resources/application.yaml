@@ -1,0 +1,15 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQLDialect
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/research_institute
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
