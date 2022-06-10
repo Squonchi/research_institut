@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,8 +25,8 @@ public class User implements UserDetails {
     private String patronymic;
     private boolean active;
 
-    @OneToMany(mappedBy = "author", targetEntity = Report.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Collection<Report> reports;
+    @OneToMany(mappedBy = "author", targetEntity = TestCase.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Collection<TestCase> testCases;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))

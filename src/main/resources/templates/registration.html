@@ -36,21 +36,7 @@
                 <input class="form-control" name="password" placeholder="Пароль" type="password" required>
                 <label>Пароль</label>
             </div>
-            <h4 class="m-1">Должность: </h4>
-            <div class="my-3 m-1">
-                <div class="form-check">
-                    <input name="role" th:value="${T(com.kursovaya.institut.models.Role).USER}" type="radio" class="form-check-input" checked="" required="">
-                    <label class="form-check-label">Сотрудник</label>
-                </div>
-                <div class="form-check">
-                    <input name="role" th:value="${T(com.kursovaya.institut.models.Role).DIRECTOR}" type="radio" class="form-check-input" required="">
-                    <label class="form-check-label">Руководитель</label>
-                </div>
-                <div class="form-check">
-                    <input name="role" th:value="${T(com.kursovaya.institut.models.Role).ADMIN}" type="radio" class="form-check-input" required="">
-                    <label class="form-check-label">Администратор</label>
-                </div>
-            </div>
+
 
             <button class="w-100 btn btn-lg btn-primary" type="submit">Добавить пользователя</button>
         </form>

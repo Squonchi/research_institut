@@ -14,10 +14,10 @@
 
         <nav class="my-2 my-md-0 mr-md-3">
             <a class="me-3 py-2 text-dark text-decoration-none" href="/">Главная</a>
-            <a class="me-3 py-2 text-dark text-decoration-none" href="/reports"
-               sec:authorize="hasAnyAuthority('DIRECTOR', 'ADMIN', 'USER')">Отчеты</a>
-            <a class="me-3 py-2 text-dark text-decoration-none " href="/user" sec:authorize="hasAuthority('ADMIN')">Список
-                пользователей</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="/test_cases">Тест-кейсы</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="/test_results">Результаты тестирования</a>
+<!--            <a class="me-3 py-2 text-dark text-decoration-none " href="/user" sec:authorize="hasAuthority('ADMIN')">Список-->
+<!--                пользователей</a>-->
 
         </nav>
         <form class="ml-3" method="post" th:action="@{/logout}" sec:authorize="isAuthenticated()">

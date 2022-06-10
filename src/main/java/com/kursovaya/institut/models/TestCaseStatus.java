@@ -7,12 +7,9 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @Getter
-public enum ReportStatus {
+public enum TestCaseStatus {
     IN_PROGRESS("В работе"),
-    FOR_CORRECTION("На исправлении"),
-    IS_READY("Готов"),
-    WAITING_APPOINTMENT("Ожидает назначения"),
-    ON_INSPECTION("Ожидает проверки");
+    IS_READY("Готов");
 
     private final String name;
 }
