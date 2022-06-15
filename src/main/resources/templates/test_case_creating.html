@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 <div>
-                    <table>
+                    <table class="table">
                         <thead>
                         <tr>
                             <th>Номер шага</th>
@@ -49,7 +49,7 @@
                             <th>Тип значения</th>
                             <th>Ожидаемое значение</th>
                             <th>
-                                <button class="w-100 btn btn-lg btn-primary" name="addRow" type="submit">Add row
+                                <button class="btn btn-lg btn-secondary h-50" name="addRow" type="submit">Добавить шаг
                                 </button>
                             </th>
                         </tr>
@@ -70,7 +70,7 @@
                                        required th:field="*{testSteps[__${itemStat.index}__].url}"
                                        th:value="${step.url}"
                                        type="text"></td>
-                            <td><select name="httpMethod" th:field="*{testSteps[__${itemStat.index}__].httpMethod}">
+                            <td><select class="form-select" name="httpMethod" th:field="*{testSteps[__${itemStat.index}__].httpMethod}">
                                 <option th:each="httpMethod : ${T(com.kursovaya.institut.models.HttpMethod).values()}"
                                         th:text="${httpMethod.name()}"
                                         th:value="${httpMethod}"></option>
@@ -80,41 +80,41 @@
                                        th:value="${step.body}"
                                        type="text"></td>
                             <td><input class="form-control" name="stepExpStatusCode" placeholder="Код ответа"
-                                       required th:field="*{testSteps[__${itemStat.index}__].expStatusCode}"
+                                       required pattern="[0-9]{3}" th:field="*{testSteps[__${itemStat.index}__].expStatusCode}"
                                        th:value="${step.expStatusCode}"
                                        type="text"></td>
                             <td><input class="form-control" name="stepValuePath" placeholder="Путь к значению"
-                                       required th:field="*{testSteps[__${itemStat.index}__].valuePath}"
-                                       th:value="${step.valuePath}"
+                                       th:field="*{testSteps[__${itemStat.index}__].valuePath}"
+                                       th:value="${step.valuePath != null ? step.valuePath : ''}"
                                        type="text"></td>
-                            <td><select name="condition" th:field="*{testSteps[__${itemStat.index}__].condition}">
+                            <td><select class="form-select" name="condition" th:field="*{testSteps[__${itemStat.index}__].condition}">
                                 <option th:each="condition : ${T(com.kursovaya.institut.models.Condition).values()}"
                                         th:text="${condition.name()}"
                                         th:value="${condition}"></option>
                             </select>
                             </td>
-                            <td><select name="valueType" th:field="*{testSteps[__${itemStat.index}__].valueType}">
+                            <td><select class="form-select" name="valueType" th:field="*{testSteps[__${itemStat.index}__].valueType}">
                                 <option th:each="type : ${T(com.kursovaya.institut.models.ValueType).values()}"
                                         th:text="${type.name()}"
                                         th:value="${type}"></option>
                             </select>
                             </td>
                             <td><input class="form-control" name="stepValue" placeholder="Ожидаемое значение"
-                                       required th:field="*{testSteps[__${itemStat.index}__].value}"
-                                       th:value="${step.value}"
+                                       th:field="*{testSteps[__${itemStat.index}__].value}"
+                                       th:value="${step.value != null ? step.value : ''}"
                                        type="text"></td>
                             <td>
-                                <button name="removeRow" th:value="${itemStat.index}" type="submit">Удалить шаг</button>
+                                <button class="btn btn-outline-dark w-100" name="removeRow" th:value="${itemStat.index}" type="submit">Удалить шаг</button>
                             </td>
                             <td>
-                                <button name="plusNumber" th:value="${itemStat.index}" type="submit">+</button>
-                                <button name="minusNumber" th:value="${itemStat.index}" type="submit">-</button>
+                                <button class="btn btn-outline-dark w-75" name="minusNumber" th:value="${itemStat.index}" type="submit">↑</button>
+                                <button class="btn btn-outline-dark w-75" name="plusNumber" th:value="${itemStat.index}" type="submit">↓</button>
                             </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <button class="w-100 btn btn-lg btn-primary" name="save" type="submit">Добавить тест-кейс</button>
+                <button class="w-100 btn btn-lg btn-primary" name="save" type="submit">Сохранить тест-кейс</button>
             </form>
         </div>
     </div>

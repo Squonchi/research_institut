@@ -1,13 +1,11 @@
 package com.kursovaya.institut.business;
 
 import com.kursovaya.institut.models.*;
-import com.kursovaya.institut.repo.TestCaseRepository;
-import com.kursovaya.institut.repo.TestStepRepository;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.hamcrest.Matcher;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hamcrest.Matchers;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -67,37 +65,42 @@ public class TestCaseRunner {
                     result.setResultStatus(ResultStatus.FAIL);
                     break;
                 }
-                try {
-                    //Comparable<?> expected;
-                    //assertThat("", getMatcher(step.getCondition(), step.getValue(), step.getValueType()).matches(step.));
-                    switch (step.getValueType()) {
-                        case INT:
-                            BigDecimal numberValue = valResponse.extract().jsonPath().getObject(step.getValuePath(), BigDecimal.class);
-                            assertThat("", getMatcher(step.getCondition(), numberValue, step.getValueType()).matches(new BigDecimal(step.getValue())));
-                            break;
-                        case STR:
-                            String stringValue = valResponse.extract().jsonPath().getObject(step.getValuePath(), String.class);
-                            assertThat("", getMatcher(step.getCondition(), stringValue, step.getValueType()).matches(step.getValue()));
-                        case BOOL:
-                            Boolean booleanValue = valResponse.extract().jsonPath().getObject(step.getValuePath(), Boolean.class);
-                            assertThat("", getMatcher(step.getCondition(), booleanValue, step.getValueType()).matches(Boolean.valueOf(step.getValue())));
-                            break;
-                        default:
-                            throw new Exception();
-                    }
+                if (step.getValuePath() != null && !step.getValuePath().equals("")) {
+                    try {
+                        valResponse.body(step.getValuePath(), Matchers.notNullValue());
+                        if (step.getValue() != null && !step.getValue().equals("")) {
+                            //Comparable<?> expected;
+                            //assertThat("", getMatcher(step.getCondition(), step.getValue(), step.getValueType()).matches(step.));
+                            switch (step.getValueType()) {
+                                case INT:
+                                    BigDecimal numberValue = valResponse.extract().jsonPath().getObject(step.getValuePath(), BigDecimal.class);
+                                    assertThat("", getMatcher(step.getCondition(), numberValue, step.getValueType()).matches(new BigDecimal(step.getValue())));
+                                    break;
+                                case STR:
+                                    String stringValue = valResponse.extract().jsonPath().getObject(step.getValuePath(), String.class);
+                                    assertThat("", getMatcher(step.getCondition(), stringValue, step.getValueType()).matches(step.getValue()));
+                                case BOOL:
+                                    Boolean booleanValue = valResponse.extract().jsonPath().getObject(step.getValuePath(), Boolean.class);
+                                    assertThat("", getMatcher(step.getCondition(), booleanValue, step.getValueType()).matches(Boolean.valueOf(step.getValue())));
+                                    break;
+                                default:
+                                    throw new Exception();
+                            }
 
-                    valResponse
-                            .body(step.getValuePath(), getMatcher(step.getCondition(), step.getValue(), step.getValueType()));
-                } catch (AssertionError e) {
-                    String path = step.getValuePath();
-                    String actual = valResponse.extract().body().jsonPath().get(step.getValuePath()).toString();
-                    String expected = step.getValue();
-                    result.setErrorMessage(String.format("Значение параметра '%s' отличается от ожидаемого:\nActual:%s\nExpected:%s", path, actual, expected));
-                    result.setResultStatus(ResultStatus.FAIL);
-                    break;
+                            valResponse
+                                    .body(step.getValuePath(), getMatcher(step.getCondition(), step.getValue(), step.getValueType()));
+                        }
+                    } catch (AssertionError e) {
+                        String path = step.getValuePath();
+                        String actual = valResponse.extract().body().jsonPath().get(step.getValuePath()).toString();
+                        String expected = step.getValue();
+                        result.setErrorMessage(String.format("Значение параметра '%s' отличается от ожидаемого:\nActual:%s\nExpected:%s", path, actual, expected));
+                        result.setResultStatus(ResultStatus.FAIL);
+                        break;
+                    }
                 }
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             result.setErrorMessage("Тест сломан.\nПроверьте правильность ввода данных или обратитесь к администратору.");
             result.setResultStatus(ResultStatus.BROKEN_TEST);
         }
@@ -105,7 +108,7 @@ public class TestCaseRunner {
     }
 
 
-    private static  <T extends Comparable<T>> Matcher<?> getMatcher(Condition condition, T value, ValueType valueType) throws Exception {
+    private static <T extends Comparable<T>> Matcher<?> getMatcher(Condition condition, T value, ValueType valueType) throws Exception {
         switch (condition) {
             case GREATER_THAN:
                 return greaterThan(value);

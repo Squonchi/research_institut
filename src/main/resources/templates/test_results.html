@@ -20,7 +20,7 @@
             <div class="card-header" th:if="${testResult.errorMessage != null}" th:text="${testResult.errorMessage}"></div>
             <div class="card-header" th:text="${testResult.resultStatus.name()}"></div>
             <div class="card-header" th:text="${testResult.runDateTime}"></div>
-            <a class="btn btn-secondary" th:href="'/test_cases/' + ${testResult.testCase.id}">Тест-кейс</a>
+            <a class="btn btn-secondary btn-lg w-25" th:href="'/test_cases/' + ${testResult.testCase.id}">Тест-кейс</a>
 
         </div>
     </div>

@@ -28,20 +28,6 @@
         </div>
     </div>
 </div>
-
-<!--div class="container mt-5 mb-5">
-    <h1>Исправление замечаний</h1>
-    <p><h3>Замечания:</h3><strong th:text="${testCase.comment}"></strong> </p>
-    <p><h4>Тема научной работы:</h4><strong th:text="${testCase.title}"></strong> </p>
-    <form method="post">
-        <input type="text" name="anons" placeholder="Краткое описание" class="form-control" th:value="${testCase.anons}" required><br>
-        <textarea name="full_text" placeholder="Текст отчета" class="form-control" th:text="${testCase.full_text}" required/><br>
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-        <button type="submit" name="status" th:value="${T(com.kursovaya.institut.models.TestCaseStatusus).ON_INSPECTION}" class="btn btn-success">Отправить на проверку</button>
-        <button type="submit" name="status" th:value="${T(com.kursovaya.institut.models.TestCaseStatusus).FOR_CORRECTION}" class="btn btn-success">Сохранить</button>
-    </form>
-</div-->
-
 <div th:insert="blocks/footer :: footer"></div>
 </body>
 </html>

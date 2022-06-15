@@ -12,6 +12,8 @@
 <div class="container mt-1 mb-1 min-vh-100">
     <header th:insert="blocks/header :: header"></header>
     <main class="form-signin">
+        <div th:if="${message != null}" th:text="${message}">
+        </div>
         <form  th:action="@{/registration}" method="post" class="container">
             <!--img class="mb-4" src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"-->
             <h1 class="h3 mb-3 fw-normal">Данные нового пользователя</h1>

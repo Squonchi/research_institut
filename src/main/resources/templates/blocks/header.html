@@ -16,6 +16,7 @@
             <a class="me-3 py-2 text-dark text-decoration-none" href="/">Главная</a>
             <a class="me-3 py-2 text-dark text-decoration-none" href="/test_cases">Тест-кейсы</a>
             <a class="me-3 py-2 text-dark text-decoration-none" href="/test_results">Результаты тестирования</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" sec:authorize="isAnonymous()" href="/registration">Регистрация</a>
 <!--            <a class="me-3 py-2 text-dark text-decoration-none " href="/user" sec:authorize="hasAuthority('ADMIN')">Список-->
 <!--                пользователей</a>-->
 
@@ -26,6 +27,7 @@
         <form class="ml-3" method="post" th:action="@{/login}" sec:authorize="isAnonymous()">
             <input type="submit" value="Авторизация"/>
         </form>
+        <div></div>
     </div>
 </div>
 </body>
